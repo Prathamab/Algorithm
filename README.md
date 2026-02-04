@@ -1,295 +1,277 @@
-# Algorithm
-1. Power of x^n using Binary Exponentiation (Recursive)
+1. Power of xⁿ using Binary Exponentiation (Recursive)
+Aim
 
- Aim
+To efficiently compute x raised to the power n using divide and conquer approach.
 
-To efficiently compute the value of x raised to the power n with minimum time complexity.
-
- Algorithm 
-
-  int  power(int x, int n) {
-    if(n==0){
+Algorithm
+int fastPower(int base, int exponent) {
+    if(exponent == 0)
         return 1;
-    }
-    int half = power(x, n / 2);
 
-    if (n % 2 == 0)
-        return half * half;
+    int halfValue = fastPower(base, exponent / 2);
+
+    if(exponent % 2 == 0)
+        return halfValue * halfValue;
     else
-        return x * half * half;
+        return base * halfValue * halfValue;
 }
 
- Time Complexity 
+Time Complexity
 
- At every step, the exponent n is reduced to n/2.
- Therefore, the total number of operations is proportional to log₂(n).
- Time Complexity: O(log n)
- Space Complexity: O(log n) for recursive implementation (due to recursion stack)
+At each step exponent becomes exponent / 2
 
+Total recursive calls ≈ log₂(n)
 
+Time Complexity: O(log n)
+Space Complexity: O(log n) (due to recursion stack)
 
- Use Case 
+Use Case
 
- Used in cryptographic algorithms (RSA, Diffie-Hellman).
- Fast modular exponentiation in competitive programming.
- Efficient computation of large powers in numerical methods.
- Reduces execution time significantly compared to naïve O(n) approach.
+Cryptography algorithms like RSA
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Competitive programming modular exponentiation
 
- 2. Permutations of a String
+Large power calculations efficiently
 
- Aim
+2. String Permutations
+Aim
 
-To generate all permutations of a given string and analyze execution time as input size increases.
+To generate all possible permutations of characters of a string and analyze execution time.
 
- Algorithm
-
-void permute(string &s, int l, int r) {
-    if (l == r) {
-      print string
+Algorithm
+void generatePermutation(string &str, int left, int right) {
+    if(left == right) {
         return;
     }
 
-    for (int i = l; i <= r; i++) {
-        swap(s[l], s[i]);
-        permute(s, l + 1, r);
-        swap(s[l], s[i]); // backtrack
+    for(int pos = left; pos <= right; pos++) {
+        swap(str[left], str[pos]);
+        generatePermutation(str, left + 1, right);
+        swap(str[left], str[pos]);   // Backtracking
     }
 }
 
- Time Complexity
+Time Complexity
 
-* Time: O(n × n!)
-* Space: O(n)
+Time: O(n × n!)
+Space: O(n)
 
- Use Case
+Use Case
 
-Used in combinatorics, password generation, brute-force search, and anagram problems.
+Password generation
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Anagram problems
 
- 3. Horner’s Rule 
+Brute force search
 
- Aim
+3. Horner’s Rule (Polynomial Evaluation)
+Aim
 
-To evaluate a polynomial efficiently in a recursive way.
+To evaluate polynomial efficiently using recursive Horner’s method.
 
- Algorithm
+Algorithm
+long long hornerEvaluate(vector<int> &coef, int valueX, int index) {
 
-long long horner(const vector<int>& coeff, int x, int index) {
-   
-    if (index == coeff.size() - 1)
-        return coeff[index];
+    if(index == coef.size() - 1)
+        return coef[index];
 
-    
-    return coeff[index] + x * horner(coeff, x, index + 1);
+    return coef[index] + valueX * hornerEvaluate(coef, valueX, index + 1);
 }
 
+Time Complexity
 
+Time: O(n)
+Space: O(n) recursive, O(1) iterative
 
- Time Complexity
+Use Case
 
-* Time: O(n)
-* Space: O(1) iterative, O(n) recursive
+Polynomial calculation
 
- Use Case
+Compiler optimization
 
-Used in polynomial evaluation, numerical methods, and compiler design.
+Numerical methods
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Tower of Hanoi
+Aim
 
- 4. Tower of Hanoi
+To solve Tower of Hanoi using recursion and measure execution time.
 
- Aim
+Algorithm
+void solveHanoi(int disks, char source, char helper, char destination) {
 
-To solve the Tower of Hanoi problem recursively and analyze execution time for different numbers of disks.
-
- Algorithm
-
-void hanoi(int n, char source, char auxiliary, char destination) {
-    if (n == 0)
+    if(disks == 0)
         return;
 
-    hanoi(n - 1, source, destination, auxiliary);
-    // move is counted but not printed
-    hanoi(n - 1, auxiliary, source, destination);
+    solveHanoi(disks - 1, source, destination, helper);
+    solveHanoi(disks - 1, helper, source, destination);
 }
 
+Time Complexity
 
- Time Complexity
+Time: O(2ⁿ)
+Space: O(n)
 
-* Time: O(2^n)
-* Space: O(n)
+Use Case
 
- Use Case
+Recursion understanding
 
-Classic example of recursion and divide-and-conquer strategy.
+Divide and conquer concept
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Bubble Sort and Selection Sort
+Aim
 
- 5. Bubble Sort and Selection Sort
+To sort arrays and analyze execution time of simple sorting algorithms.
 
- Aim
+Bubble Sort Algorithm
+void bubbleSorting(vector<int> &arrData) {
+    int size = arrData.size();
 
-To sort arrays of different sizes and compare execution time of Bubble Sort and Selection Sort.
-
- Algorithm (Bubble Sort)
-
-void bubbleSort(vector<int>& arr) {
-    int n = arr.size();
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1])
-                swap(arr[j], arr[j + 1]);
+    for(int pass = 0; pass < size - 1; pass++) {
+        for(int pos = 0; pos < size - pass - 1; pos++) {
+            if(arrData[pos] > arrData[pos + 1])
+                swap(arrData[pos], arrData[pos + 1]);
         }
     }
 }
 
- Algorithm (Selection Sort)
+Selection Sort Algorithm
+void selectionSorting(vector<int> &arrData) {
+    int size = arrData.size();
 
-void selectionSort(vector<int>& arr) {
-    int n = arr.size();
-    for (int i = 0; i < n - 1; i++) {
-        int minIdx = i;
-        for (int j = i + 1; j < n; j++) {
-            if (arr[j] < arr[minIdx])
-                minIdx = j;
+    for(int step = 0; step < size - 1; step++) {
+        int minIndex = step;
+
+        for(int check = step + 1; check < size; check++) {
+            if(arrData[check] < arrData[minIndex])
+                minIndex = check;
         }
-        swap(arr[i], arr[minIdx]);
+
+        swap(arrData[step], arrData[minIndex]);
     }
 }
 
- Time Complexity
+Time Complexity
 
-* Bubble Sort: O(n^2)
-* Selection Sort: O(n^2)
+Bubble Sort: O(n²)
+Selection Sort: O(n²)
 
- Use Case
+Use Case
 
-Used for educational purposes and small datasets.
+Learning sorting basics
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Small dataset sorting
 
- 6. Missing Number using LSB 
+6. Missing Number using Bitwise Idea
+Aim
 
- Aim
+To detect missing number in sequence using bitwise logic.
 
-To find a missing number in consecutive integers without doing arithmetic operations.
+Algorithm
+int detectMissing(int arrValues[], int length) {
 
- Algorithm
+    for(int i = 0; i < length - 1; i++) {
 
-int findMissing(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        if ((arr[i] & 1) == (arr[i + 1] & 1)) {
-            return (arr[i] + arr[i + 1]) / 2;
+        if((arrValues[i] & 1) == (arrValues[i+1] & 1)) {
+            return (arrValues[i] + arrValues[i+1]) / 2;
         }
     }
+
     return -1;
 }
 
- Time Complexity
+Time Complexity
 
-* Time: O(n)
-* Space: O(1)
+Time: O(n)
+Space: O(1)
 
- Use Case
+Use Case
 
-Bitwise problem-solving and detecting missing elements in sequences.
+Bitwise programming
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Sequence analysis
 
- 7.  findTips
-
- Aim
-
-To find the numbers of tips of balls until its velocity becomes less than 1.
-
- Algorithm
-
-int findTips(double v)
-{
-    if (v < 1.0)
-        return 0;
-
-    return 1 + findTips(v - 0.425);
-}
-
-
- Time Complexity
-
-* Time: O(v)
-* Space: O(v)
-
- Use Case
-
-Understanding recursion depth and linear recursion behavior.
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
- 8. Truth Table Generation 
-
- Aim
-
-To generate truth tables for n boolean variables and analyze exponential growth.
-
- Algorithm (BTT)
-
-void BTT(int k, int n)
-{
-    if (k > n)
-    {
-        // Normally: print a[1..n]
-        // Skipped printing for accurate time measurement
-        return;
-    }
-
-    a[k] = true;          BTT(k + 1, n);    
-
-    a[k] = false;       BTT(k + 1, n);    
-
- Time Complexity
-
-* Time: O(2^n)
-* Space: O(n)
-
- Use Case
-
-Digital logic design, boolean algebra, and circuit analysis.
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-9. Linear Search
-
+7. findTips (Velocity Reduction Recursion)
 Aim
 
-To search for a given key element in an array using the linear (sequential) search technique and analyze its execution time for different input sizes.
+To calculate number of tips until velocity becomes less than 1.
 
- Algorithm (BTT)
+Algorithm
+int countTips(double velocity) {
 
-void linear_search(int arr[],int n){
-    int target =rand();
-     for(int i=0; i<n; i++){
-            if(arr[i]==target){
-                break;
-            }
-        }
+    if(velocity < 1.0)
+        return 0;
+
+    return 1 + countTips(velocity - 0.425 * velocity);
 }
 
- Time Complexity
+Time Complexity
 
-* Best Case: O(1) — when the key is found at the first position.
+Time: O(v)
+Space: O(v) recursion stack
 
-  Average Case: O(n) — when the key is somewhere in the middle.
+Use Case
 
-  Worst Case: O(n) — when the key is at the last position or not present.
+Recursion depth understanding
 
-* Space Complexity: O(1), as no extra space is used.
+Simulation problems
 
- Use Case
+8. Truth Table Generation
+Aim
 
-Suitable for small datasets or unsorted arrays.
+To generate boolean truth table combinations using recursion.
 
-Used when data is not sorted and preprocessing (sorting) is not desired.
+Algorithm
+void generateTruthTable(int index, int total) {
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(index > total)
+        return;
+
+    arr[index] = true;
+    generateTruthTable(index + 1, total);
+
+    arr[index] = false;
+    generateTruthTable(index + 1, total);
+}
+
+Time Complexity
+
+Time: O(2ⁿ)
+Space: O(n)
+
+Use Case
+
+Digital logic
+
+Boolean algebra
+
+Circuit design
+
+9. Linear Search
+Aim
+
+To search element sequentially in array and analyze execution time.
+
+Algorithm
+void sequentialSearch(int arrData[], int size) {
+
+    int key = rand();
+
+    for(int pos = 0; pos < size; pos++) {
+        if(arrData[pos] == key)
+            break;
+    }
+}
+
+Time Complexity
+
+Best Case: O(1)
+Average Case: O(n)
+Worst Case: O(n)
+
+Space Complexity: O(1)
+
+Use Case
+
+Small datasets
+
+Unsorted arrays
